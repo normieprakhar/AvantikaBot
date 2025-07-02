@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>AvantikaBot – Real AI</title>
+  <style>
+    body {
+      background: #fce4ec;
+      font-family: 'Comic Sans MS', cursive;
+      text-align: center;
+      padding: 30px;
+    }
+    .chat-box {
+      max-width: 500px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      min-height: 300px;
+      overflow-y: auto;
+    }
+    .msg {
+      margin: 10px 0;
+    }
+    .bot {
+      color: #d81b60;
+      text-align: left;
+    }
+    .user {
+      color: #1a237e;
+      text-align: right;
+    }
+    input, button {
+      padding: 10px;
+      font-size: 16px;
+      margin-top: 10px;
+    }
+    button {
+      background-color: #ba68c8;
+      color: white;
+      border: none;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-box" id="chatBox">
+    <div class="msg bot">AvantikaBot: Hii baby! Puchho na kuch 😘</div>
+  </div>
+  <input id="userInput" type="text" placeholder="Type something..." />
+  <button onclick="sendMessage()">Send</button>
+  <script src="script.js"></script>
+</body>
+</html>
