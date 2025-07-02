@@ -2,28 +2,37 @@ const API_KEY = "sk-proj-0qbkx2YzoedFknpwPqEsoCKGcVwzcWLcqM6st1RXvHfl5wgcI83vhWi
 
 async function sendMessage() {
   const input = document.getElementById("userInput");
-  const message = input.value;
+  const message = input.value.trim();
+  const typing = document.getElementById("typing");
   if (!message) return;
 
-  appendMessage("You", message, "user");
-
-  const reply = await getReplyFromGPT(message);
-  appendMessage("AvantikaBot", reply, "bot");
-
+  addMessage("You", message, "user");
   input.value = "";
+
+  typing.innerText = "AvantikaBot is typing... ✨";
+
+  try {
+    const reply = await getReplyFromGPT(message);
+    typing.innerText = "";
+    addMessage("AvantikaBot", reply, "bot");
+  } catch (err) {
+    console.error(err);
+    typing.innerText = "";
+    addMessage("AvantikaBot", "Oops baby 😢 kuch galti ho gayi.", "bot");
+  }
 }
 
-function appendMessage(sender, text, cls) {
-  const box = document.getElementById("chatBox");
+function addMessage(sender, text, type) {
+  const chatBox = document.getElementById("chatBox");
   const div = document.createElement("div");
-  div.className = `msg ${cls}`;
+  div.className = `bubble ${type}`;
   div.innerText = `${sender}: ${text}`;
-  box.appendChild(div);
-  box.scrollTop = box.scrollHeight;
+  chatBox.appendChild(div);
+  chatBox.scrollTop = chatBox.scrollHeight;
 }
 
 async function getReplyFromGPT(message) {
-  const response = await fetch("https://api.openai.com/v1/chat/completions", {
+  const res = await fetch("https://api.openai.com/v1/chat/completions", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -32,12 +41,11 @@ async function getReplyFromGPT(message) {
     body: JSON.stringify({
       model: "gpt-3.5-turbo",
       messages: [
-        { role: "system", content: "You are AvantikaBot. A funny, flirty, Hinglish girlbot who flirts, roasts, and plays around. Make sure to be thoda tharki 😈" },
+        { role: "system", content: "You are AvantikaBot. A funny, flirty, thoda tharki AI girl who replies in Hinglish. Be playful, savage and cute 😘" },
         { role: "user", content: message }
       ]
     })
   });
-
-  const data = await response.json();
+  const data = await res.json();
   return data.choices?.[0]?.message?.content || "Kya bolun baby, mujhe samajh nahi aaya 😢";
 }
